@@ -57,13 +57,46 @@ class Client
         $json = $this->call('getArticles', $paramsObject);
         return $this->jsonMapper->map($json, new GetArticlesResponse());
     }
+    
+    public function getArticleIdsWithState(GetArticleIdsWithState $paramsObject): GetArticleIdsWithStateResponse
+    {
+        $json = $this->call('getArticleIdsWithState', $paramsObject);
+        return $this->jsonMapper->map($json, new GetArticleIdsWithStateResponse());
+    }
+    
+    public function getManufacturers2(GetManufacturers2 $paramObject): GetManufacturers2Response
+    {
+        $json = $this->call('getManufacturers2', $paramObject);
+        return $this->jsonMapper->map($json, new GetManufacturers2Response());
+    }
+
+    public function getModelSeries(GetModelSeries $paramObject): GetModelSeriesResponse
+    {
+        $json = $this->call('getModelSeries', $paramObject);
+        return $this->jsonMapper->map($json, new GetModelSeriesResponse());
+    }    
 
     public function getVehicleByIds3(GetVehicleByIds3 $paramsObject): GetVehicleByIds3Response
     {
         Client::addIntermediatePropNamedArray($paramsObject, 'carIds');
         $json = $this->call('getVehicleByIds3', $paramsObject);
+
+        $json->data = array_map(function($item) {
+            if(isset($item->motorCodes) && $item->motorCodes === '') {
+                unset($item->motorCodes);
+            }
+
+            return $item;
+        }, $json->data);
+
         return $this->jsonMapper->map($json, new GetVehicleByIds3Response());
     }
+    
+    public function getVehicleIdsByCriteria(GetVehicleIdsByCriteria $paramObject): GetVehicleIdsByCriteriaResponse
+    {
+        $json = $this->call('getVehicleIdsByCriteria', $paramObject);
+        return $this->jsonMapper->map($json, new GetVehicleIdsByCriteriaResponse());
+    }    
 
     public function getArticleLinkedAllLinkingTargetsByIds3(GetArticleLinkedAllLinkingTargetsByIds3 $paramsObject): GetArticleLinkedAllLinkingTargetsByIds3Response
     {
@@ -81,6 +114,34 @@ class Client
         }
         return $this->jsonMapper->map($json, new GetArticleLinkedAllLinkingTarget4Response());
     }
+    
+    public function getArticleDirectSearchAllNumbersWithState(GetArticleDirectSearchAllNumbersWithState $paramsObject): GetArticleDirectSearchAllNumbersWithStateResponse
+    {
+        $json = $this->call('getArticleDirectSearchAllNumbersWithState', $paramsObject);
+        return $this->jsonMapper->map($json, new GetArticleDirectSearchAllNumbersWithStateResponse());
+    }    
+    
+    public function getChildNodesPattern2(GetChildNodesPattern2 $paramsObject): GetChildNodesPattern2Response
+    {
+        $json = $this->call('getChildNodesPattern2', $paramsObject);
+        return $this->jsonMapper->map($json, new GetChildNodesPattern2Response());
+    }
+
+    public function getDirectArticlesByIds7(GetDirectArticlesByIds7 $paramsObject): GetDirectArticlesByIds7Response
+    {
+        Client::addIntermediatePropNamedArray($paramsObject, 'articleId');
+        $json = $this->call('getDirectArticlesByIds7', $paramsObject);
+        // Handle empty API result with invalid property value
+        $json->data = array_map(function($item) {
+            if($item->articleThumbnails === '') {
+                unset($item->articleThumbnails);
+            }
+
+            return $item;
+        }, $json->data);
+
+        return $this->jsonMapper->map($json, new GetDirectArticlesByIds7Response());
+    }    
 
     private function call(string $functionName, $paramsObject)
     {
