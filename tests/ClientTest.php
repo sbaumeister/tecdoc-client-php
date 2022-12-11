@@ -4,6 +4,7 @@ namespace Baumeister\TecDocClient\Tests;
 
 use Baumeister\TecDocClient\Client;
 use Baumeister\TecDocClient\Generated\GetAmBrands;
+use Baumeister\TecDocClient\Generated\GetArticleAccessoryList4;
 use Baumeister\TecDocClient\Generated\GetArticleLinkedAllLinkingTarget4;
 use Baumeister\TecDocClient\Generated\GetArticleLinkedAllLinkingTargetsByIds3;
 use Baumeister\TecDocClient\Generated\GetArticles;
@@ -141,7 +142,6 @@ class ClientTest extends TestCase
         $this->assertEquals(200, $response->getStatus());
     }
 
-
     public function testGetVehicleByIds3_handleResponseWithEmptyStringsInPlaceOfArrays()
     {
         $params = (new GetVehicleByIds3())
@@ -160,6 +160,19 @@ class ClientTest extends TestCase
             ->setCarIds([102028, 105077]);
 
         $response = $this->tecDocClient->getVehicleByIds3($params);
+
+        print_r($response);
+        $this->assertEquals(200, $response->getStatus());
+    }
+
+    public function testGetArticleAccessoryList4()
+    {
+        $params = (new GetArticleAccessoryList4())
+            ->setLang('de')
+            ->setArticleCountry('de')
+            ->setArticleId(434407615);
+
+        $response = $this->tecDocClient->getArticleAccessoryList4($params);
 
         print_r($response);
         $this->assertEquals(200, $response->getStatus());

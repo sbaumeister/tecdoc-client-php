@@ -6,6 +6,8 @@ namespace Baumeister\TecDocClient;
 
 use Baumeister\TecDocClient\Generated\GetAmBrands;
 use Baumeister\TecDocClient\Generated\GetAmBrandsResponse;
+use Baumeister\TecDocClient\Generated\GetArticleAccessoryList4;
+use Baumeister\TecDocClient\Generated\GetArticleAccessoryList4Response;
 use Baumeister\TecDocClient\Generated\GetArticleLinkedAllLinkingTarget4;
 use Baumeister\TecDocClient\Generated\GetArticleLinkedAllLinkingTarget4Response;
 use Baumeister\TecDocClient\Generated\GetArticleLinkedAllLinkingTargetsByIds3;
@@ -80,6 +82,12 @@ class Client
             $json->data = [];
         }
         return $this->mapJsonToObject($json, new GetArticleLinkedAllLinkingTarget4Response());
+    }
+
+    public function getArticleAccessoryList4(GetArticleAccessoryList4 $paramsObject): GetArticleAccessoryList4Response
+    {
+        $json = $this->call('getArticleAccessoryList4', $paramsObject);
+        return $this->mapJsonToObject($json, new GetArticleAccessoryList4Response());
     }
 
     private function call(string $functionName, $paramsObject)
